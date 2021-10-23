@@ -1,0 +1,84 @@
+<style>
+.product_desc{
+    background-color: rgb(163, 163, 255);
+    margin-left: 15px;
+    margin-right: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+
+}
+.product_desc_details{
+    display: none;
+}
+.product_desc:hover{
+    margin: auto;
+    background-color: rgb(163, 163, 255);
+    z-index: 1;
+    width: 94%;
+    height:220px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+.product_desc:hover  .product_desc_details{
+    display: block;
+    padding:20px;
+}
+
+</style>
+<script>
+
+    $(document).ready(function () {
+        $(".btn_next").click(function () {
+            pageNo = pageNo + 1;
+            $.ajax({
+                url: "{% url 'nextpage' %}",
+                data: { "pageno": pageNo },
+                success: function (result) {
+                    $("#divResult").html(result);
+                }
+            });
+            
+        });
+    });
+    $(document).ready(function () {
+        $(".btn_previous").click(function () {
+            $.ajax({
+                url: "{% url 'previouspage' %}",
+                data: { "pageno": pageNo },
+                success: function (result) {
+                    $("#divResult").html(result);
+                }
+            });
+            pageNo = pageNo - 1;
+        });
+    });
+</script>
+<h1></h1>
+<br>
+<div class="product_list">
+{% for i in Result%}
+<div class="product_desc">
+    <span style="font-weight: 700; font-size: larger;">{{i.0}} {{i.1}}</span><br>
+    <span style="font-weight: 600; font-size: medium;">{{i.5}}</span><br>
+    <span style="font-weight: 600; font-size: medium;">RAM: {{i.6}}</span><br>
+    <span style="font-weight: 600; font-size: large;">Rs. {{i.11}}</span><br>
+    <div class="product_desc_details">
+        <span style="font-weight: 600; font-size: smaller;">Type: {{i.2}}</span><br>
+        <span style="font-weight: 600; font-size: smaller;">Storage: {{i.7}}</span><br>
+        <span style="font-weight: 600; font-size: smaller;">Resolution: {{i.4}}</span><br>
+        <span style="font-weight: 600; font-size: smaller;">GPU: {{i.8}}</span><br>
+        <span style="font-weight: 600; font-size: smaller;">Clock Speed: {{i.12}}</span><br>
+        <span style="font-weight: 600; font-size: smaller;">OS: {{i.9}}</span><br>
+        <span style="font-weight: 600; font-size: smaller;">Weight: {{i.10}}</span><br>
+    </div>
+</div>
+<br>
+{% endfor %}
+</div>
+<center>
+    <div class="page_nav">
+        <button class="btn_previous">Previous</button>
+        <span style="font-weight: 600; font-size: medium;">page - {{page}}</span>
+        <button class="btn_next" >Next</button>
+    </div>
+</center>
+

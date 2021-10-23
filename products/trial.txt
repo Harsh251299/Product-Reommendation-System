@@ -1,0 +1,9 @@
+import pandas as pd
+
+df=pd.read_csv("laptops.csv")
+for i in range(0,len(df)):
+        lst0=str(df.loc[i,"Cpu"]).split("-")
+        str0=" ".join(lst0)
+        print(str0)
+        df.loc[i,"Cpu"]=str0
+df.to_csv("laptops.csv",index=False)
